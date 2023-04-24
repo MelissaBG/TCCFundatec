@@ -1,19 +1,18 @@
 package com.fundatec.tcc.model;
 
 import com.mongodb.internal.connection.Time;
-
+import org.springframework.data.annotation.Id;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
-public class Medication {
+public class Medication extends ListMedication{
+    @Id
     private String id;
     private String name;
     private String dosage;
     private Integer amount;
     private LocalDate dateRegister;
     private List<Time> listTime;
-    private List<Medication> medicationList;
 
     // construtor, getters e setters aqui
 
@@ -65,12 +64,5 @@ public class Medication {
         this.listTime = listTime;
     }
 
-    public List<Medication> getMedicationList() {
-        return medicationList;
-    }
-
-    public void setMedicationList(List<Medication> medicationList) {
-        this.medicationList = medicationList;
-    }
 }
 

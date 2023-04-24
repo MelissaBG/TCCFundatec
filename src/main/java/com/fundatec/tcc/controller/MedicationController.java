@@ -18,19 +18,19 @@ public class MedicationController {
     @Autowired
     private MedicationService medicationService;
 
-    @PostMapping
+    @PostMapping("/save")
     public ResponseEntity<Medication> createMedication(@RequestBody Medication medication) {
         Medication createdMedication = medicationService.createMedication(medication);
         return new ResponseEntity<>(createdMedication, HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @GetMapping("/getAllMedications")
     public ResponseEntity<List<Medication>> getAllMedications() {
         List<Medication> medications = medicationService.getAllMedications();
         return new ResponseEntity<>(medications, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("getMedicationById/{id}")
     public ResponseEntity<Medication> getMedicationById(@PathVariable String id) {
         Optional<Medication> medicationOptional = medicationService.getMedicationById(id);
 
@@ -42,29 +42,29 @@ public class MedicationController {
         return new ResponseEntity<>(medication, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("deleteMedication/{id}")
     public ResponseEntity<Void> deleteMedication(@PathVariable String id) {
         medicationService.deleteMedication(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("updateMedication/{id}")
     public ResponseEntity<Medication> updateMedication(@PathVariable String id, @RequestBody Medication medication) {
         Medication updatedMedication = medicationService.updateMedication(id, medication);
         return new ResponseEntity<>(updatedMedication, HttpStatus.OK);
     }
-    @PostMapping("/{id}/addMedications")
+    @PostMapping("addMedicationsToList/{id}")
     public ResponseEntity<Medication> addMedicationsToList(@PathVariable String id, @RequestBody List<Medication> medications) {
         medicationService.addMedicationsToList(id, medications);
         return ResponseEntity.ok().build();
     }
-    @DeleteMapping("/{id}/removeMedication")
+    @DeleteMapping("removeMedicationFromList/{id}")
     public ResponseEntity<Medication> removeMedicationFromList(@PathVariable String id, @RequestBody Medication medication) {
         medicationService.removeMedicationFromList(id, medication);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/{id}/updateMedication")
+    @PutMapping("updateMedicationInList/{id}")
     public ResponseEntity<Medication> updateMedicationInList(@PathVariable String id, @RequestBody Medication oldMedication, @RequestBody Medication newMedication) {
         medicationService.updateMedicationInList(id, oldMedication, newMedication);
         return ResponseEntity.ok().build();

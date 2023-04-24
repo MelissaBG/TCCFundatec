@@ -47,4 +47,9 @@ public class TimeController {
         Time updatedTime = timeService.update(time);
         return new ResponseEntity<>(updatedTime, HttpStatus.OK);
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable String id) {
+        timeService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
