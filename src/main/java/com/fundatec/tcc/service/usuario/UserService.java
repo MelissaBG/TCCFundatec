@@ -1,5 +1,6 @@
 package com.fundatec.tcc.service.usuario;
 
+import com.fundatec.tcc.controller.exceptions.InvalidCredentialsException;
 import com.fundatec.tcc.model.User;
 import com.fundatec.tcc.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,15 @@ public class UserService {
 
     public void delete(String id) {
         userRepository.deleteById(id);
+    }
+
+    public User loginUser(String username, String password) {
+        User existingUser = findByUsername(username);
+        if (existingUser != null && existingUser.getPassword().equals(password)) {
+            return existingUser;
+        } else {
+            throw new InvalidCredentialsException("Invalid username or password");
+        }
     }
 }
 

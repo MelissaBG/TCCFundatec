@@ -3,12 +3,11 @@ package com.fundatec.tcc.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDate;
 import java.util.List;
 //Medication não estende mais a classe ListMedication, mas a classe ListMedication contém uma lista de medicamentos.
 // Dessa forma, cada instância de ListMedication pode conter uma lista de Medication.
 @Document(collection = "medication")
-public class MedicationUser extends Person {
+public class MedicationUser {
     @Id
     private String medicationUserId;
     private User user;

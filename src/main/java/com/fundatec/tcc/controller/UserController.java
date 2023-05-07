@@ -39,7 +39,7 @@ public class UserController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/save")
     public ResponseEntity<User> createUser(@RequestBody User user) throws UsernameAlreadyExistsException {
         if(userService.findByUsername(user.getUsername()) != null) {
             throw new UsernameAlreadyExistsException("Username " + user.getUsername() + " already exists");
@@ -74,12 +74,8 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<User> loginUser(@RequestBody User user) {
-        User existingUser = userService.findByUsername(user.getUsername());
-        if(existingUser != null && existingUser.getPassword().equals(user.getPassword())) {
-            return new ResponseEntity<>(existingUser, HttpStatus.OK);
-        } else {
-            throw new InvalidCredentialsException("Invalid username or password");
-        }
+        User authenticatedUser = userService.loginUser(user.getUsername(), user.getPassword());
+        return new ResponseEntity<>(authenticatedUser, HttpStatus.OK);
     }
 
 }
