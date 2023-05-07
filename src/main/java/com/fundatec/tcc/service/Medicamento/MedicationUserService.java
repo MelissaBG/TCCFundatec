@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,11 +50,20 @@ public class MedicationUserService {
         return medicationUserRepository.findAll();
     }
 
-    public Optional<MedicationUser> findMedicationUserById(String id) {
-        return medicationUserRepository.findById(id);
+    public Optional<MedicationUser> findMedicationUserById(String medicationUserId) {
+        return medicationUserRepository.findById(medicationUserId);
     }
-    public void deleteMedicationUser(String id) {
-        medicationUserRepository.deleteById(id);
+//    public List<Medication> findMedicationsByUserIdThymeleaft(String userId) {
+//        Optional<MedicationUser> medicationUserOptional = medicationUserRepository.findById(userId);
+//        if (medicationUserOptional.isPresent()) {
+//            MedicationUser medicationUser = medicationUserOptional.get();
+//            return medicationUser.getMedicationList();
+//        } else {
+//            return Collections.emptyList();
+//        }
+//    }
+    public void deleteMedicationUser(String medicationUserId) {
+        medicationUserRepository.deleteById(medicationUserId);
     }
     public Medication updateExistingMedication(String medicationUserId, String medicationId, Medication updatedMedication) {
         Optional<MedicationUser> medicationUserOptional = medicationUserRepository.findById(medicationUserId);
