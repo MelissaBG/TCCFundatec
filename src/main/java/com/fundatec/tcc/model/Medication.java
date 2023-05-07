@@ -2,19 +2,19 @@ package com.fundatec.tcc.model;
 
 import com.mongodb.internal.connection.Time;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.time.LocalDate;
 import java.util.List;
-
-public class Medication extends ListMedication{
+@Document(collection = "medicationUser")
+public class Medication {
     @Id
     private String id;
     private String name;
     private String dosage;
     private Integer amount;
     private LocalDate dateRegister;
-    private List<Time> listTime;
-
-    // construtor, getters e setters aqui
+    private Time time;
 
     public String getId() {
         return id;
@@ -56,13 +56,11 @@ public class Medication extends ListMedication{
         this.dateRegister = dateRegister;
     }
 
-    public List<Time> getListTime() {
-        return listTime;
+    public Time getTime() {
+        return time;
     }
 
-    public void setListTime(List<Time> listTime) {
-        this.listTime = listTime;
+    public void setTime(Time time) {
+        this.time = time;
     }
-
 }
-

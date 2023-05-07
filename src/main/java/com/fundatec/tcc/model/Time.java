@@ -1,9 +1,13 @@
 package com.fundatec.tcc.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.time.DayOfWeek;
 import java.time.LocalTime;
-
+@Document(collection = "time")
 public class Time {
+    @Id
     private String id;
     private DayOfWeek dayOfWeek;
     private LocalTime hour;
