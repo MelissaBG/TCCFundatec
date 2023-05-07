@@ -53,7 +53,7 @@ public class MedicationController {
         medicationUserService.deleteMedicationUser(medicationUserId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    @PutMapping("/{medicationUserId}/medications/{medicationId}")
+    @PutMapping("/{medicationUserId}/userMedication/{medicationId}")
     public ResponseEntity<Medication> updateExistingMedication(@PathVariable String medicationUserId,
                                                                @PathVariable String medicationId,
                                                                @RequestBody Medication updatedMedication) {
@@ -64,19 +64,19 @@ public class MedicationController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    @PostMapping("/{medicationUserId}/medications/add")
+    @PostMapping("/{medicationUserId}/userMedication/add")
     public ResponseEntity<Void> addMedicationsToList(@PathVariable String medicationUserId,
                                                      @RequestBody List<Medication> medications) {
         medicationUserService.addMedicationsToList(medicationUserId, medications);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    @DeleteMapping("/{medicationUserId}/medications/remove")
+    @DeleteMapping("/{medicationUserId}/userMedication/remove")
     public ResponseEntity<Void> removeMedicationFromList(@PathVariable String medicationUserId,
                                                          @RequestBody Medication medication) {
         medicationUserService.removeMedicationFromList(medicationUserId, medication);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    @PutMapping("/{medicationUserId}/medications/update")
+    @PutMapping("/{medicationUserId}/userMedication/update")
     public ResponseEntity<Void> updateMedicationInList(@PathVariable String medicationUserId,
                                                        @RequestBody Medication oldMedication,
                                                        @RequestBody Medication newMedication) {
