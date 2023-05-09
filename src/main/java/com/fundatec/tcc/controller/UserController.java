@@ -29,7 +29,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("buscar/{id}")
     public ResponseEntity<User> getUserById(@PathVariable String id) {
         User user = userService.findById(id);
         if(user != null) {
@@ -49,7 +49,7 @@ public class UserController {
     }
 
 
-    @PutMapping("/atualizar/{id}")
+    @PutMapping("/editar/{id}")
     public ResponseEntity<User> updateUser(@PathVariable String id, @RequestBody User user) {
         User existingUser = userService.findById(id);
         if(existingUser == null) {
