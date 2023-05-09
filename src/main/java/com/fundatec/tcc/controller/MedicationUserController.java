@@ -21,7 +21,7 @@ public class MedicationUserController {
         return ResponseEntity.ok(medicationUsers);
     }
 
-    @GetMapping("getMedicationUserById/{id}")
+    @GetMapping("/getMedicationUserById/{id}")
     public ResponseEntity<MedicationUser> getMedicationUserById(@PathVariable String id) {
         MedicationUser medicationUser = medicationUserService.getMedicationUserById(id);
         if (medicationUser != null) {
@@ -37,7 +37,7 @@ public class MedicationUserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedMedicationUser);
     }
 
-    @PutMapping("updateMedicationUser/{id}")
+    @PutMapping("/updateMedicationUser/{id}")
     public ResponseEntity<MedicationUser> updateMedicationUser(@PathVariable String id, @RequestBody MedicationUser medicationUser) {
         MedicationUser updatedMedicationUser = medicationUserService.updateMedicationUser(id, medicationUser);
         if (updatedMedicationUser != null) {
@@ -47,7 +47,7 @@ public class MedicationUserController {
         }
     }
 
-    @DeleteMapping("deleteMedicationUserById/{id}")
+    @DeleteMapping("/deleteMedicationUserById/{id}")
     public ResponseEntity<Void> deleteMedicationUserById(@PathVariable String id) {
         medicationUserService.deleteMedicationUserById(id);
         return ResponseEntity.noContent().build();

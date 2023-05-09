@@ -8,10 +8,10 @@
 		<version>3.0.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.tabd</groupId>
-	<artifactId>mcdonalds</artifactId>
+	<groupId>com.tcc</groupId>
+	<artifactId>TCC</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>mcdonalds</name>
+	<name>TCC</name>
 	<description>restful project tabd</description>
 	<properties>
 		<java.version>17</java.version>
