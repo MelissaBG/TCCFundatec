@@ -55,8 +55,8 @@ public class MedicationUserController {
 
 
     @PostMapping("/{medicationUserId}/addMedications")
-    public ResponseEntity<MedicationUser> addMedicationsToList(@PathVariable String medicationUserId, @RequestBody List<Medication> medications) {
-        MedicationUser updatedUser = medicationUserService.addMedicationsToList(medicationUserId, medications);
+    public ResponseEntity<MedicationUser> addMedicationsToList(@PathVariable String id, @RequestBody List<Medication> medications) {
+        MedicationUser updatedUser = medicationUserService.addMedicationsToList(id, medications);
         if (updatedUser != null) {
             return ResponseEntity.ok(updatedUser);
         } else {
@@ -64,8 +64,8 @@ public class MedicationUserController {
         }
     }
     @DeleteMapping("/{medicationUserId}/removeMedication")
-    public ResponseEntity<MedicationUser> removeMedicationFromList(@PathVariable String medicationUserId, @RequestParam String medicationId) {
-        MedicationUser updatedUser = medicationUserService.removeMedicationFromList(medicationUserId, medicationId);
+    public ResponseEntity<MedicationUser> removeMedicationFromList(@PathVariable String id, @RequestParam String medicationId) {
+        MedicationUser updatedUser = medicationUserService.removeMedicationFromList(id, medicationId);
         if (updatedUser != null) {
             return ResponseEntity.ok(updatedUser);
         } else {
@@ -73,8 +73,8 @@ public class MedicationUserController {
         }
     }
     @PutMapping("/{medicationUserId}/updateMedication/{medicationId}")
-    public ResponseEntity<MedicationUser> updateMedicationInList(@PathVariable String medicationUserId, @PathVariable String medicationId, @RequestBody Medication updatedMedication) {
-        MedicationUser updatedUser = medicationUserService.updateMedicationInList(medicationUserId, medicationId, updatedMedication);
+    public ResponseEntity<MedicationUser> updateMedicationInList(@PathVariable String id, @PathVariable String medicationId, @RequestBody Medication updatedMedication) {
+        MedicationUser updatedUser = medicationUserService.updateMedicationInList(id, medicationId, updatedMedication);
         if (updatedUser != null) {
             return ResponseEntity.ok(updatedUser);
         } else {
