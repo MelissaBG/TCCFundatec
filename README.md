@@ -11,6 +11,7 @@ MEDICATION USER
 POST - http://localhost:8080/medicationUsers/saveMedicationUser
 PUT - http://localhost:8080/medicationUsers/updateMedicationUser/{id}
 GET - http://localhost:8080/medicationUsers/getMedicationUserById/{id}
+GET - http://localhost:8080/medicationUsers/getAllMedicationUsers
 DELETE - http://localhost:8080/medicationUsers/deleteMedicationUserById/{id}
 
 POST - http://localhost:8080/medicationUsers/{medicationUserId}/addMedications

@@ -15,7 +15,7 @@ public class MedicationUserController {
     @Autowired
     private MedicationUserService medicationUserService;
 
-    @GetMapping
+    @GetMapping("/getAllMedicationUsers")
     public ResponseEntity<List<MedicationUser>> getAllMedicationUsers() {
         List<MedicationUser> medicationUsers = medicationUserService.getAllMedicationUsers();
         return ResponseEntity.ok(medicationUsers);

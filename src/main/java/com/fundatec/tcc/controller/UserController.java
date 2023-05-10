@@ -29,7 +29,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("buscar/{id}")
+    @GetMapping("/buscar/{id}")
     public ResponseEntity<User> getUserById(@PathVariable String id) {
         User user = userService.findById(id);
         if(user != null) {
