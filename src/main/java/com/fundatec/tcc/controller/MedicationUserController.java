@@ -32,18 +32,41 @@ public class MedicationUserController {
     }
 
     @PostMapping
-    public ResponseEntity<MedicationUser> saveMedicationUser(@RequestBody MedicationUser medicationUser) {
-        MedicationUser savedMedicationUser = medicationUserService.saveMedicationUser(medicationUser);
-        return new ResponseEntity<>(savedMedicationUser, HttpStatus.CREATED);
+    public ResponseEntity<MedicationUser> addMedicationToList(
+            @PathVariable String userId,
+            @RequestBody Medication medication
+    ) {
+        MedicationUser medicationUser = medicationUserService.addMedicationToList(userId, medication);
+        if (medicationUser != null) {
+            return ResponseEntity.ok(medicationUser);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    @PutMapping("/{userId}/medications/{medicationId}")
+    public ResponseEntity<MedicationUser> updateMedicationInList(
+            @PathVariable String userId,
+            @PathVariable String medicationId,
+            @RequestBody Medication updatedMedication
+    ) {
+        MedicationUser medicationUser = medicationUserService.updateMedicationInList(userId, medicationId, updatedMedication);
+        if (medicationUser != null) {
+            return ResponseEntity.ok(medicationUser);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{id}/medications/{medicationName}")
-    public ResponseEntity<MedicationUser> removeMedicationFromList(@PathVariable String id, @PathVariable String medicationName) {
+    public ResponseEntity<MedicationUser> removeMedicationFromList(
+            @PathVariable String id,
+            @PathVariable String medicationName
+    ) {
         MedicationUser updatedMedicationUser = medicationUserService.removeMedicationFromList(id, medicationName);
         if (updatedMedicationUser != null) {
-            return new ResponseEntity<>(updatedMedicationUser, HttpStatus.OK);
+            return ResponseEntity.ok(updatedMedicationUser);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
     }
 }

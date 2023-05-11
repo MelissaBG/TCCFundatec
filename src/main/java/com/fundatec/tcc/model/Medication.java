@@ -10,7 +10,6 @@ import java.time.LocalDate;
 public class Medication {
     @Id
     private String id;
-    private String userId;
     private String name;
     private String dosage;
     private Integer amount;
@@ -65,11 +64,4 @@ public class Medication {
         this.time = time;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 }
