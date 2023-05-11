@@ -11,12 +11,16 @@ public class MedicationUser {
     @Id
     private String id;
     private String userName;
-    private List<String> medicationNameList;
 
-    public MedicationUser(String userName, List<String> medicationNameList) {
+    private List<String> medications;
+
+    // construtor, getters e setters aqui
+
+    public MedicationUser(String userName, List<String> medications){
         this.userName = userName;
-        this.medicationNameList = medicationNameList;
+        this.medications = medications;
     }
+
 
     public String getId() {
         return id;
@@ -34,11 +38,11 @@ public class MedicationUser {
         this.userName = userName;
     }
 
-    public List<String> getMedicationNameList() {
-        return medicationNameList;
+    public void setMedications(List<String> medications) {
+        this.medications = medications;
     }
 
-    public void setMedicationNameList(List<String> medicationNameList) {
-        this.medicationNameList = medicationNameList;
+    public List<String> getMedications() {
+        return medications;
     }
 }
