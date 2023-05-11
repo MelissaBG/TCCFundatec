@@ -2,16 +2,13 @@ package com.fundatec.tcc.service.Medicamento;
 
 import com.fundatec.tcc.model.Medication;
 import com.fundatec.tcc.model.MedicationUser;
-import com.fundatec.tcc.model.User;
 import com.fundatec.tcc.repository.MedicationUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class MedicationUserService {
@@ -33,7 +30,7 @@ public class MedicationUserService {
         if (medicationUserRepository.existsById(id)) {
             MedicationUser existingMedicationUser = medicationUserRepository.findById(id).orElse(null);
             if (existingMedicationUser != null) {
-                existingMedicationUser.setMedicationList(medicationUser.getMedicationList());
+                existingMedicationUser.setMedicationNameList(medicationUser.getMedicationNameList());
                 return medicationUserRepository.save(existingMedicationUser);
             }
         }

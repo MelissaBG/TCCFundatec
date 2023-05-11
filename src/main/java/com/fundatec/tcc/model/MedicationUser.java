@@ -10,11 +10,13 @@ import java.util.List;
 public class MedicationUser {
     @Id
     private String id;
-    private User user;
-    private List<Medication> medicationList;
+    private String userName;
+    private List<String> medicationNameList;
 
-    // construtor, getters e setters aqui
-
+    public MedicationUser(String userName, List<String> medicationNameList) {
+        this.userName = userName;
+        this.medicationNameList = medicationNameList;
+    }
 
     public String getId() {
         return id;
@@ -24,19 +26,19 @@ public class MedicationUser {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public void setMedicationList(List<Medication> existingList) {
-        this.medicationList = medicationList;
+    public List<String> getMedicationNameList() {
+        return medicationNameList;
     }
 
-    public List<Medication> getMedicationList() {
-        return medicationList;
+    public void setMedicationNameList(List<String> medicationNameList) {
+        this.medicationNameList = medicationNameList;
     }
 }

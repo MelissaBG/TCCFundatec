@@ -10,11 +10,12 @@ import java.time.LocalDate;
 public class Medication {
     @Id
     private String id;
+    private String userId;
     private String name;
     private String dosage;
     private Integer amount;
     private LocalDate dateRegister;
-    private Time time;
+    private String time;
 
     public String getId() {
         return id;
@@ -56,11 +57,19 @@ public class Medication {
         this.dateRegister = dateRegister;
     }
 
-    public Time getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Time time) {
+    public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }
