@@ -8,11 +8,6 @@ DELETE - http://localhost:8080/users/deletar/{id}
 GET - http://localhost:8080/users/buscar/{id}
 
 MEDICATION USER
-POST - http://localhost:8080/medicationUsers/saveMedicationUser
-PUT - http://localhost:8080/medicationUsers/updateMedicationUser/{id}
-GET - http://localhost:8080/medicationUsers/getMedicationUserById/{id}
-GET - http://localhost:8080/medicationUsers/getAllMedicationUsers
-DELETE - http://localhost:8080/medicationUsers/deleteMedicationUserById/{id}
 
 POST - http://localhost:8080/medicationUsers/{medicationUserId}/addMedications
 DELETE - http://localhost:8080/medicationUsers/{medicationUserId}/removeMedication
@@ -22,4 +17,5 @@ PUT - http://localhost:8080/medicationUsers/{medicationUserId}/updateMedication/
 MEDICATION
 
 http://localhost:8080/medications/createMedication
-http://localhost:8080/medications
+http://localhost:8080/medications/deleteMedication/{medicationName}
+http://localhost:8080/medications/updateMedication/{medicationName}

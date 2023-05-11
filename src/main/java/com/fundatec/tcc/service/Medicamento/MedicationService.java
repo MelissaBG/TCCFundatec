@@ -27,12 +27,12 @@ public class MedicationService {
         return medicationRepository.save(medication);
     }
 
-    public Medication getMedicationById(String id) {
-        return medicationRepository.findById(id).orElse(null);
+    public Medication getMedicationByName(String medicationName) {
+        return medicationRepository.findByName(medicationName);
     }
 
-    public void deleteMedicationById(String id) {
-        medicationRepository.deleteById(id);
+    public void deleteMedicationByName(String medicationName) {
+        medicationRepository.deleteByName(medicationName.toLowerCase());
     }
 }
 

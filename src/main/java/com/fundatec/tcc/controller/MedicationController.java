@@ -48,29 +48,26 @@ public class MedicationController {
         return new ResponseEntity<>(savedMedication, HttpStatus.CREATED);
     }
 
-    @PutMapping("/updateMedication/{id}")
-    public ResponseEntity<Medication> updateMedication(@PathVariable String id, @RequestBody Medication medication) throws MedicationNotFoundException {
-        Medication existingMedication = medicationService.getMedicationById(id);
+    @PutMapping("/updateMedication/{medicationName}")
+    public ResponseEntity<Medication> updateMedicationByName(
+            @PathVariable String medicationName,
+            @RequestBody Medication medication
+    ) {
+        Medication existingMedication = medicationService.getMedicationByName(medicationName);
         if (existingMedication != null) {
             existingMedication.setName(medication.getName());
             existingMedication.setDosage(medication.getDosage());
             existingMedication.setAmount(medication.getAmount());
             Medication updatedMedication = medicationService.saveMedication(existingMedication);
-            return new ResponseEntity<>(updatedMedication, HttpStatus.OK);
+            return ResponseEntity.ok(updatedMedication);
         } else {
-            throw new MedicationNotFoundException("Medication with ID " + id + " not found");
+            return ResponseEntity.notFound().build();
         }
     }
 
-    @DeleteMapping("/deleteMedication/{id}")
-    public ResponseEntity<Void> deleteMedication(@PathVariable String id) throws MedicationNotFoundException {
-        Medication existingMedication = medicationService.getMedicationById(id);
-        if (existingMedication != null) {
-            medicationService.deleteMedicationById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            throw new MedicationNotFoundException("Medication with ID " + id + " not found");
-        }
+    @DeleteMapping("/deleteMedication/{medicationName}")
+    public ResponseEntity<Void> deleteMedication(@PathVariable String medicationName) {
+        medicationService.deleteMedicationByName(medicationName);
+        return ResponseEntity.noContent().build();
     }
-
 }

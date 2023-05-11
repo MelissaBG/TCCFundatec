@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MedicationRepository extends MongoRepository<Medication, String> {
     Medication findByName(String name);
+
+    void deleteByName(String medicationName);
 }
