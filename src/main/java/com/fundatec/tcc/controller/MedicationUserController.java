@@ -17,44 +17,36 @@ public class MedicationUserController {
     private MedicationUserService medicationUserService;
 
     @GetMapping
-    public List<MedicationUser> getAllMedicationUsers() {
-        return medicationUserService.getAllMedicationUsers();
+    public ResponseEntity<List<MedicationUser>> getAllMedicationUsers() {
+        List<MedicationUser> medicationUsers = medicationUserService.getAllMedicationUsers();
+        return ResponseEntity.ok(medicationUsers);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<MedicationUser> getMedicationUserById(@PathVariable String id) {
         MedicationUser medicationUser = medicationUserService.getMedicationUserById(id);
         if (medicationUser != null) {
-            return new ResponseEntity<>(medicationUser, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PostMapping
-    public ResponseEntity<MedicationUser> addMedicationToList(
-            @PathVariable String userId,
-            @RequestBody Medication medication
-    ) {
-        MedicationUser medicationUser = medicationUserService.addMedicationToList(userId, medication);
-        if (medicationUser != null) {
             return ResponseEntity.ok(medicationUser);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PostMapping("/{userId}/medications")
+    public ResponseEntity<MedicationUser> addMedicationToList(
+            @PathVariable String userId,
+            @RequestBody Medication medication
+    ) {
+        return medicationUserService.addMedicationToList(userId, medication);
+    }
+
     @PutMapping("/{userId}/medications/{medicationId}")
     public ResponseEntity<MedicationUser> updateMedicationInList(
             @PathVariable String userId,
             @PathVariable String medicationId,
             @RequestBody Medication updatedMedication
     ) {
-        MedicationUser medicationUser = medicationUserService.updateMedicationInList(userId, medicationId, updatedMedication);
-        if (medicationUser != null) {
-            return ResponseEntity.ok(medicationUser);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return medicationUserService.updateMedicationInList(userId, medicationId, updatedMedication);
     }
 
     @DeleteMapping("/{id}/medications/{medicationName}")
@@ -70,4 +62,5 @@ public class MedicationUserController {
         }
     }
 }
+
 

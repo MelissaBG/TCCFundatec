@@ -5,6 +5,7 @@ import com.fundatec.tcc.model.Medication;
 import com.fundatec.tcc.model.MedicationUser;
 import com.fundatec.tcc.repository.MedicationUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
@@ -26,18 +27,20 @@ public class MedicationUserService {
         return medicationUserRepository.findById(id).orElse(null);
     }
 
-    public MedicationUser addMedicationToList(String userId, Medication medication) {
+    public ResponseEntity<MedicationUser> addMedicationToList(String userId, Medication medication) {
         MedicationUser medicationUser = medicationUserRepository.findById(userId).orElse(null);
         if (medicationUser != null) {
             List<Medication> medicationList = medicationUser.getMedicationList();
             medicationList.add(medication);
             medicationUser.setMedicationList(medicationList);
-            return medicationUserRepository.save(medicationUser);
+            MedicationUser updatedMedicationUser = medicationUserRepository.save(medicationUser);
+            return ResponseEntity.ok(updatedMedicationUser);
+        } else {
+            return ResponseEntity.notFound().build();
         }
-        return null;
     }
 
-    public MedicationUser updateMedicationInList(String userId, String medicationId, Medication updatedMedication) {
+    public ResponseEntity<MedicationUser> updateMedicationInList(String userId, String medicationId, Medication updatedMedication) {
         MedicationUser medicationUser = medicationUserRepository.findById(userId).orElse(null);
         if (medicationUser != null) {
             List<Medication> medicationList = medicationUser.getMedicationList();
@@ -46,12 +49,14 @@ public class MedicationUserService {
                 if (medication.getId().equals(medicationId)) {
                     medicationList.set(i, updatedMedication);
                     medicationUser.setMedicationList(medicationList);
-                    return medicationUserRepository.save(medicationUser);
+                    MedicationUser updatedUser = medicationUserRepository.save(medicationUser);
+                    return ResponseEntity.ok(updatedUser);
                 }
             }
         }
-        return null;
+        return ResponseEntity.notFound().build();
     }
+
 
     public MedicationUser removeMedicationFromList(String id, String medicationName) {
         MedicationUser medicationUser = getMedicationUserById(id);
