@@ -17,3 +17,12 @@ DELETE - http://localhost:8080/medicationUsers/deleteMedicationUserById/{id}
 POST - http://localhost:8080/medicationUsers/{medicationUserId}/addMedications
 DELETE - http://localhost:8080/medicationUsers/{medicationUserId}/removeMedication
 PUT - http://localhost:8080/medicationUsers/{medicationUserId}/updateMedication/{medicationId}
+
+
+MEDICATION
+http://localhost:8080/medication/getAllMedication
+http://localhost:8080/medication/saveMedication
+http://localhost:8080/medication/updateMedication/{id}
+http://localhost:8080/medication/deleteMedicationById/{id}
+http://localhost:8080/medication/getMedicationById/{id}
+http://localhost:8080/medication/getMedicationByName/{name}

@@ -1,5 +1,7 @@
 package com.fundatec.tcc.controller;
 
+import com.fundatec.tcc.controller.exceptions.MedicationAlreadyExistsException;
+import com.fundatec.tcc.controller.exceptions.MedicationNotFoundException;
 import com.fundatec.tcc.model.Medication;
 import com.fundatec.tcc.service.Medicamento.MedicationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,54 +13,64 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/medication")
+@RequestMapping("/medications")
 public class MedicationController {
 
     @Autowired
     private MedicationService medicationService;
 
-    @GetMapping("/getAllMedication")
-    public ResponseEntity<List<Medication>> getAllMedication() {
-        List<Medication> medication = medicationService.getAllMedication();
-        return ResponseEntity.ok(medication);
-    }
-
-    @PostMapping("/saveMedication")
-    public ResponseEntity<Medication> saveMedication(@RequestBody Medication medication) {
-        Medication savedMedication = medicationService.saveMedication(medication);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedMedication);
-    }
-
-    @PutMapping("/updateMedication/{id}")
-    public ResponseEntity<Medication> updateMedication(@PathVariable String id, @RequestBody Medication medication) {
-        Medication updatedMedication = medicationService.updateMedication(id, medication);
-        if (updatedMedication != null) {
-            return ResponseEntity.ok(updatedMedication);
+    @GetMapping
+    public List<Medication> getAllMedications() throws MedicationNotFoundException {
+        List<Medication> medications = medicationService.getAllMedications();
+        if (medications.isEmpty()) {
+            throw new MedicationNotFoundException("No medications found");
         } else {
-            return ResponseEntity.notFound().build();
+            return medications;
         }
     }
 
-    @DeleteMapping("/deleteMedicationById/{id}")
-    public ResponseEntity<Void> deleteMedicationById(@PathVariable String id) {
-        medicationService.deleteMedicationById(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Medication> getMedicationById(@PathVariable String id) {
-        Optional<Medication> medication = medicationService.findById(id);
-        return medication.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    @GetMapping("/name/{name}")
-    public ResponseEntity<Medication> getMedicationByName(@PathVariable String name) {
+    @GetMapping("/getMedicationByName/{name}")
+    public ResponseEntity<Medication> getMedicationByName(@PathVariable String name) throws MedicationNotFoundException {
         Medication medication = medicationService.findByName(name);
         if (medication != null) {
             return new ResponseEntity<>(medication, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new MedicationNotFoundException("Medication with name " + name + " not found");
         }
     }
+
+    @PostMapping("/createMedication")
+    public ResponseEntity<Medication> createMedication(@RequestBody Medication medication) throws MedicationAlreadyExistsException {
+        if (medicationService.findByName(medication.getName()) != null) {
+            throw new MedicationAlreadyExistsException("Medication " + medication.getName() + " already exists");
+        }
+        Medication savedMedication = medicationService.saveMedication(medication);
+        return new ResponseEntity<>(savedMedication, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/updateMedication/{id}")
+    public ResponseEntity<Medication> updateMedication(@PathVariable String id, @RequestBody Medication medication) throws MedicationNotFoundException {
+        Medication existingMedication = medicationService.getMedicationById(id);
+        if (existingMedication != null) {
+            existingMedication.setName(medication.getName());
+            existingMedication.setDosage(medication.getDosage());
+            existingMedication.setAmount(medication.getAmount());
+            Medication updatedMedication = medicationService.saveMedication(existingMedication);
+            return new ResponseEntity<>(updatedMedication, HttpStatus.OK);
+        } else {
+            throw new MedicationNotFoundException("Medication with ID " + id + " not found");
+        }
+    }
+
+    @DeleteMapping("/deleteMedication/{id}")
+    public ResponseEntity<Void> deleteMedication(@PathVariable String id) throws MedicationNotFoundException {
+        Medication existingMedication = medicationService.getMedicationById(id);
+        if (existingMedication != null) {
+            medicationService.deleteMedicationById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            throw new MedicationNotFoundException("Medication with ID " + id + " not found");
+        }
+    }
+
 }

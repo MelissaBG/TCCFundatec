@@ -2,6 +2,7 @@ package com.fundatec.tcc.controller;
 
 import com.fundatec.tcc.model.Medication;
 import com.fundatec.tcc.model.MedicationUser;
+
 import com.fundatec.tcc.service.Medicamento.MedicationUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

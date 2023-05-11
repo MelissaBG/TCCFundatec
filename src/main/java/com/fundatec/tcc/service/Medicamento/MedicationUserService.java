@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
-
+import java.util.Optional;
 
 @Service
 public class MedicationUserService {
@@ -20,12 +20,14 @@ public class MedicationUserService {
     }
 
     public MedicationUser getMedicationUserById(String id) {
-        return medicationUserRepository.findById(id).orElse(null);
+        Optional<MedicationUser> medicationUser = medicationUserRepository.findById(id);
+        return medicationUser.orElse(null);
     }
 
     public MedicationUser saveMedicationUser(MedicationUser medicationUser) {
         return medicationUserRepository.save(medicationUser);
     }
+
     public MedicationUser updateMedicationUser(String id, MedicationUser medicationUser) {
         if (medicationUserRepository.existsById(id)) {
             MedicationUser existingMedicationUser = medicationUserRepository.findById(id).orElse(null);
@@ -36,6 +38,7 @@ public class MedicationUserService {
         }
         return null;
     }
+
     public void deleteMedicationUserById(String id) {
         medicationUserRepository.deleteById(id);
     }
@@ -43,32 +46,35 @@ public class MedicationUserService {
     public MedicationUser addMedicationsToList(String medicationUserId, List<Medication> medications) {
         MedicationUser medicationUser = medicationUserRepository.findById(medicationUserId).orElse(null);
         if (medicationUser != null) {
-            List<Medication> medicationList = medicationUser.getMedicationList();
-            medicationList.addAll(medications);
-            medicationUser.setMedicationList(medicationList);
+            List<String> medicationNameList = medicationUser.getMedicationNameList();
+            for (Medication medication : medications) {
+                medicationNameList.add(medication.getName());
+            }
+            medicationUser.setMedicationNameList(medicationNameList);
             return medicationUserRepository.save(medicationUser);
         }
         return null;
     }
-    public MedicationUser removeMedicationFromList(String medicationUserId, String medicationId) {
-        MedicationUser medicationUser = medicationUserRepository.findById(medicationUserId).orElse(null);
+
+    public MedicationUser removeMedicationFromList(String Id, String medicationId) {
+        MedicationUser medicationUser = medicationUserRepository.findById(Id).orElse(null);
         if (medicationUser != null) {
-            List<Medication> medicationList = medicationUser.getMedicationList();
-            medicationList.removeIf(medication -> medication.getId().equals(medicationId));
-            medicationUser.setMedicationList(medicationList);
+            List<String> medicationNameList = medicationUser.getMedicationNameList();
+            medicationNameList.removeIf(medication -> medication.equals(medicationId));
+            medicationUser.setMedicationNameList(medicationNameList);
             return medicationUserRepository.save(medicationUser);
         }
         return null;
     }
+
     public MedicationUser updateMedicationInList(String medicationUserId, String medicationId, Medication updatedMedication) {
         MedicationUser medicationUser = medicationUserRepository.findById(medicationUserId).orElse(null);
         if (medicationUser != null) {
-            List<Medication> medicationList = medicationUser.getMedicationList();
-            for (int i = 0; i < medicationList.size(); i++) {
-                Medication medication = medicationList.get(i);
-                if (medication.getId().equals(medicationId)) {
-                    medicationList.set(i, updatedMedication);
-                    medicationUser.setMedicationList(medicationList);
+            List<String> medicationNameList = medicationUser.getMedicationNameList();
+            for (int i = 0; i < medicationNameList.size(); i++) {
+                if (medicationNameList.get(i).equals(medicationId)) {
+                    medicationNameList.set(i, updatedMedication.getName());
+                    medicationUser.setMedicationNameList(medicationNameList);
                     return medicationUserRepository.save(medicationUser);
                 }
             }
