@@ -32,39 +32,29 @@ public class MedicationUserController {
         }
     }
 
-    @GetMapping("/name/{name}")
-    public ResponseEntity<MedicationUser> getMedicationUserByName(@PathVariable String name) {
-        MedicationUser medicationUser = medicationUserService.getMedicationUserByName(name);
-        if (medicationUser != null) {
-            return ResponseEntity.ok(medicationUser);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @PostMapping("/{userName}/medications")
+    @PostMapping("/{userId}/medications")
     public ResponseEntity<MedicationUser> addMedicationToList(
-            @PathVariable String userName,
+            @PathVariable String userId,
             @RequestBody Medication medication
     ) {
-        return medicationUserService.addMedicationToList(userName, medication);
+        return medicationUserService.addMedicationToList(userId, medication);
     }
 
-    @PutMapping("/{userName}/medications/{medicationName}")
+    @PutMapping("/{userId}/medications/{medicationId}")
     public ResponseEntity<MedicationUser> updateMedicationInList(
-            @PathVariable String userName,
-            @PathVariable String medicationName,
+            @PathVariable String userId,
+            @PathVariable String medicationId,
             @RequestBody Medication updatedMedication
     ) {
-        return medicationUserService.updateMedicationInList(userName, medicationName, updatedMedication);
+        return medicationUserService.updateMedicationInList(userId, medicationId, updatedMedication);
     }
 
-    @DeleteMapping("/{userName}/medications/{medicationName}")
+    @DeleteMapping("/{id}/medications/{medicationName}")
     public ResponseEntity<MedicationUser> removeMedicationFromList(
-            @PathVariable String userName,
+            @PathVariable String id,
             @PathVariable String medicationName
     ) {
-        MedicationUser updatedMedicationUser = medicationUserService.removeMedicationFromList(userName, medicationName);
+        MedicationUser updatedMedicationUser = medicationUserService.removeMedicationFromList(id, medicationName);
         if (updatedMedicationUser != null) {
             return ResponseEntity.ok(updatedMedicationUser);
         } else {
@@ -72,3 +62,4 @@ public class MedicationUserController {
         }
     }
 }
+
