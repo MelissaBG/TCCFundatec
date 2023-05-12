@@ -11,15 +11,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
 @Service
 public class MedicationUserService {
     @Autowired
     private MedicationUserRepository medicationUserRepository;
 
-    public List<MedicationUser> getAllMedicationUsers() {
-        return medicationUserRepository.findAll();
-    }
 
     public MedicationUser getMedicationUserById(String id) {
         return medicationUserRepository.findById(id).orElse(null);
@@ -29,13 +25,11 @@ public class MedicationUserService {
         MedicationUser medicationUser = medicationUserRepository.findByUserName(userName);
         if (medicationUser != null) {
             List<Medication> medicationList = medicationUser.getMedicationList();
-            Medication findMedication = medicationList.stream()
-                    .filter(m -> m.getName().equals(medication.getName()))
-                    .findFirst()
-                    .orElse(null);
+            boolean medicationExists = medicationList.stream()
+                    .anyMatch(m -> m.getId().equals(medication.getId()));
 
-            if (findMedication != null) {
-                throw new MedicationAlreadyExistsException(String.format("A medicação %s já está na lista", medication.getName()));
+            if (medicationExists) {
+                throw new MedicationAlreadyExistsException(String.format("A medicação com Id %s já está na lista", medication.getId()));
             }
 
             medicationList.add(medication);
@@ -45,14 +39,13 @@ public class MedicationUserService {
 
         return medicationUser;
     }
-    public void removeMedicationFromUser(String userName, String medicationName) throws MedicationNotFoundException {
-        // Buscar usuário pelo nome
+    public void removeMedicationFromUser(String userName, String medicationId) throws MedicationNotFoundException {
         MedicationUser user = medicationUserRepository.findByUserName(userName);
         if (user == null) {
             throw new MedicationNotFoundException("Usuário não encontrado");
         }
         List<Medication> medicationList = user.getMedicationList();
-        Medication medicationToRemove = getMedicationByName(medicationList, medicationName);
+        Medication medicationToRemove = getMedicationById(medicationList, medicationId);
         if (medicationToRemove == null) {
             throw new MedicationNotFoundException("Medicação não encontrada na lista do usuário");
         }
@@ -60,10 +53,9 @@ public class MedicationUserService {
         medicationUserRepository.save(user);
     }
 
-
-    private Medication getMedicationByName(List<Medication> medicationList, String medicationName) throws MedicationNotFoundException {
+    private Medication getMedicationById(List<Medication> medicationList, String medicationId) throws MedicationNotFoundException {
         for (Medication medication : medicationList) {
-            if (medication.getName().equals(medicationName)) {
+            if (medication.getId().equals(medicationId)) {
                 return medication;
             }
         }
@@ -77,7 +69,7 @@ public class MedicationUserService {
         List<Medication> medicationListUser = user.getMedicationList();
         boolean medicationExists = false;
         for (Medication medication : medicationListUser) {
-            if (medication.getName().equals(updatedMedication.getName())) {
+            if (medication.getId().equals(updatedMedication.getId())) {
                 medication.setDosage(updatedMedication.getDosage());
                 medication.setAmount(updatedMedication.getAmount());
                 medication.setDateRegister(updatedMedication.getDateRegister());
