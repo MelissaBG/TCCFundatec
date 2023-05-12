@@ -19,7 +19,7 @@ public class MedicationController {
     @Autowired
     private MedicationService medicationService;
 
-    @GetMapping
+    @GetMapping("/getAllMedications")
     public List<Medication> getAllMedications() throws MedicationNotFoundException {
         List<Medication> medications = medicationService.getAllMedications();
         if (medications.isEmpty()) {

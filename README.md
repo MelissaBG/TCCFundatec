@@ -9,9 +9,6 @@ GET - http://localhost:8080/users/buscar/{id}
 
 MEDICATION USER
 
-POST - http://localhost:8080/medicationUsers/{medicationUserId}/addMedications
-DELETE - http://localhost:8080/medicationUsers/{medicationUserId}/removeMedication
-PUT - http://localhost:8080/medicationUsers/{medicationUserId}/updateMedication/{medicationId}
 
 
 MEDICATION
@@ -19,3 +16,6 @@ MEDICATION
 http://localhost:8080/medications/createMedication
 http://localhost:8080/medications/deleteMedication/{medicationName}
 http://localhost:8080/medications/updateMedication/{medicationName}
+http://localhost:8080/medications/getMedicationByName/{name}
+http://localhost:8080/medications/getAllMedications
+
