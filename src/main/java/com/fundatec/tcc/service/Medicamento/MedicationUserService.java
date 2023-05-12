@@ -59,8 +59,8 @@ public class MedicationUserService {
         return ResponseEntity.notFound().build();
     }
 
-    public MedicationUser removeMedicationFromList(String id, String medicationName) {
-        MedicationUser medicationUser = getMedicationUserById(id);
+    public MedicationUser removeMedicationFromList(String userName, String medicationName) {
+        MedicationUser medicationUser = medicationUserRepository.findByName(userName);
         List<Medication> medicationList = medicationUser.getMedicationList();
 
         Iterator<Medication> iterator = medicationList.iterator();
@@ -73,4 +73,5 @@ public class MedicationUserService {
 
         return medicationUserRepository.save(medicationUser);
     }
+
 }
