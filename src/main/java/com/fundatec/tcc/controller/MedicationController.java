@@ -70,4 +70,5 @@ public class MedicationController {
         medicationService.deleteMedicationByName(medicationName);
         return ResponseEntity.noContent().build();
     }
+
 }

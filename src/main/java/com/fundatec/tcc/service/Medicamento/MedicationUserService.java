@@ -45,20 +45,21 @@ public class MedicationUserService {
 
         return medicationUser;
     }
-    public void removeMedicationFromUser(String userName, String medicationName) throws MedicationNotFoundException{
-            MedicationUser user = medicationUserRepository.findByUserName(userName);
-            if (user == null) {
-                throw new MedicationNotFoundException("Usuário não encontrado");
-            }
-
-            List<Medication> medicationList = user.getMedicationList();
+    public void removeMedicationFromUser(String userName, String medicationName) throws MedicationNotFoundException {
+        // Buscar usuário pelo nome
+        MedicationUser user = medicationUserRepository.findByUserName(userName);
+        if (user == null) {
+            throw new MedicationNotFoundException("Usuário não encontrado");
+        }
+        List<Medication> medicationList = user.getMedicationList();
         Medication medicationToRemove = getMedicationByName(medicationList, medicationName);
         if (medicationToRemove == null) {
-                throw new MedicationNotFoundException("Medicação não encontrada na lista do usuário");
-            }
-            medicationList.remove(medicationToRemove);
-            medicationUserRepository.save(user);
+            throw new MedicationNotFoundException("Medicação não encontrada na lista do usuário");
         }
+        medicationList.remove(medicationToRemove);
+        medicationUserRepository.save(user);
+    }
+
 
     private Medication getMedicationByName(List<Medication> medicationList, String medicationName) throws MedicationNotFoundException {
         for (Medication medication : medicationList) {
@@ -68,6 +69,29 @@ public class MedicationUserService {
         }
         throw new MedicationNotFoundException("Medicação não encontrada");
     }
+    public void updateMedicationFromUser(String userName, Medication updatedMedication) throws MedicationNotFoundException {
+        MedicationUser user = medicationUserRepository.findByUserName(userName);
+        if (user == null) {
+            throw new MedicationNotFoundException("Usuário não encontrado");
+        }
+        List<Medication> medicationListUser = user.getMedicationList();
+        boolean medicationExists = false;
+        for (Medication medication : medicationListUser) {
+            if (medication.getName().equals(updatedMedication.getName())) {
+                medication.setDosage(updatedMedication.getDosage());
+                medication.setAmount(updatedMedication.getAmount());
+                medication.setDateRegister(updatedMedication.getDateRegister());
+                medication.setTime(updatedMedication.getTime());
 
+                medicationExists = true;
+                break;
+            }
+        }
+
+        if (!medicationExists) {
+            throw new MedicationNotFoundException("Medicação não encontrada na lista do usuário");
+        }
+        medicationUserRepository.save(user);
+    }
 }
 
