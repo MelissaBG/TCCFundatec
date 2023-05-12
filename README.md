@@ -8,7 +8,9 @@ DELETE - http://localhost:8080/users/deletar/{id}
 GET - http://localhost:8080/users/buscar/{id}
 
 MEDICATION USER
-
+http://localhost:8080/medicationUsers/addMedicationToUser/{userName}/medications
+http://localhost:8080/medicationUsers/deleteMedication/{userName}/{medicationName}
+http://localhost:8080/medicationUsers/updateMedicationFromUser/{userName}/medications
 
 
 MEDICATION
