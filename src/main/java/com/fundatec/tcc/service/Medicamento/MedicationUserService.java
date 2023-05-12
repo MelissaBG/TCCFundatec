@@ -26,9 +26,11 @@ public class MedicationUserService {
     public MedicationUser getMedicationUserById(String id) {
         return medicationUserRepository.findById(id).orElse(null);
     }
-
-    public ResponseEntity<MedicationUser> addMedicationToList(String userId, Medication medication) {
-        MedicationUser medicationUser = medicationUserRepository.findById(userId).orElse(null);
+    public MedicationUser getMedicationUserByName(String name) {
+        return medicationUserRepository.findByName(name);
+    }
+    public ResponseEntity<MedicationUser> addMedicationToList(String userName, Medication medication) {
+        MedicationUser medicationUser = medicationUserRepository.findByName(userName);
         if (medicationUser != null) {
             List<Medication> medicationList = medicationUser.getMedicationList();
             medicationList.add(medication);
@@ -40,13 +42,13 @@ public class MedicationUserService {
         }
     }
 
-    public ResponseEntity<MedicationUser> updateMedicationInList(String userId, String medicationId, Medication updatedMedication) {
-        MedicationUser medicationUser = medicationUserRepository.findById(userId).orElse(null);
+    public ResponseEntity<MedicationUser> updateMedicationInList(String userName, String medicationName, Medication updatedMedication) {
+        MedicationUser medicationUser = medicationUserRepository.findByName(userName);
         if (medicationUser != null) {
             List<Medication> medicationList = medicationUser.getMedicationList();
             for (int i = 0; i < medicationList.size(); i++) {
                 Medication medication = medicationList.get(i);
-                if (medication.getId().equals(medicationId)) {
+                if (medication.getName().equals(medicationName)) {
                     medicationList.set(i, updatedMedication);
                     medicationUser.setMedicationList(medicationList);
                     MedicationUser updatedUser = medicationUserRepository.save(medicationUser);
@@ -56,7 +58,6 @@ public class MedicationUserService {
         }
         return ResponseEntity.notFound().build();
     }
-
 
     public MedicationUser removeMedicationFromList(String id, String medicationName) {
         MedicationUser medicationUser = getMedicationUserById(id);
