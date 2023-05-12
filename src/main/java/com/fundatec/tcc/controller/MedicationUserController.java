@@ -1,5 +1,6 @@
 package com.fundatec.tcc.controller;
 
+import com.fundatec.tcc.controller.exceptions.MedicationAlreadyExistsException;
 import com.fundatec.tcc.model.Medication;
 import com.fundatec.tcc.model.MedicationUser;
 
@@ -21,44 +22,16 @@ public class MedicationUserController {
         List<MedicationUser> medicationUsers = medicationUserService.getAllMedicationUsers();
         return ResponseEntity.ok(medicationUsers);
     }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<MedicationUser> getMedicationUserById(@PathVariable String id) {
-        MedicationUser medicationUser = medicationUserService.getMedicationUserById(id);
-        if (medicationUser != null) {
-            return ResponseEntity.ok(medicationUser);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @PostMapping("/{userId}/medications")
-    public ResponseEntity<MedicationUser> addMedicationToList(
-            @PathVariable String userId,
+    @PostMapping("/{userName}/medications")
+    public ResponseEntity<String> addMedicationToUser(
+            @PathVariable("userName") String userName,
             @RequestBody Medication medication
     ) {
-        return medicationUserService.addMedicationToList(userId, medication);
-    }
-
-    @PutMapping("/{userId}/medications/{medicationId}")
-    public ResponseEntity<MedicationUser> updateMedicationInList(
-            @PathVariable String userId,
-            @PathVariable String medicationId,
-            @RequestBody Medication updatedMedication
-    ) {
-        return medicationUserService.updateMedicationInList(userId, medicationId, updatedMedication);
-    }
-
-    @DeleteMapping("/{id}/medications/{medicationName}")
-    public ResponseEntity<MedicationUser> removeMedicationFromList(
-            @PathVariable String id,
-            @PathVariable String medicationName
-    ) {
-        MedicationUser updatedMedicationUser = medicationUserService.removeMedicationFromList(id, medicationName);
-        if (updatedMedicationUser != null) {
-            return ResponseEntity.ok(updatedMedicationUser);
-        } else {
-            return ResponseEntity.notFound().build();
+        try {
+            medicationUserService.addMedicationToUser(userName, medication);
+            return ResponseEntity.ok("Medication added successfully.");
+        } catch (MedicationAlreadyExistsException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 }

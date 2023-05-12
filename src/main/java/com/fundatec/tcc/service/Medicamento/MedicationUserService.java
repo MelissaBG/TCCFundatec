@@ -1,5 +1,6 @@
 package com.fundatec.tcc.service.Medicamento;
 
+import com.fundatec.tcc.controller.exceptions.MedicationAlreadyExistsException;
 import com.fundatec.tcc.controller.exceptions.UserNotFoundException;
 import com.fundatec.tcc.model.Medication;
 import com.fundatec.tcc.model.MedicationUser;
@@ -27,50 +28,23 @@ public class MedicationUserService {
         return medicationUserRepository.findById(id).orElse(null);
     }
 
-    public ResponseEntity<MedicationUser> addMedicationToList(String userId, Medication medication) {
-        MedicationUser medicationUser = medicationUserRepository.findById(userId).orElse(null);
+    public void addMedicationToUser(String userName, Medication medication) throws MedicationAlreadyExistsException {
+        MedicationUser medicationUser = medicationUserRepository.findByUserName(userName);
         if (medicationUser != null) {
-            List<Medication> medicationList = medicationUser.getMedicationList();
-            medicationList.add(medication);
-            medicationUser.setMedicationList(medicationList);
-            MedicationUser updatedMedicationUser = medicationUserRepository.save(medicationUser);
-            return ResponseEntity.ok(updatedMedicationUser);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+            List<Medication> medicationListUser = medicationUser.getMedicationList();
+            Medication findMedication = medicationListUser.stream()
+                    .filter(m -> m.getName().equals(medication.getName()))
+                    .findFirst()
+                    .orElse(null);
 
-    public ResponseEntity<MedicationUser> updateMedicationInList(String userId, String medicationId, Medication updatedMedication) {
-        MedicationUser medicationUser = medicationUserRepository.findById(userId).orElse(null);
-        if (medicationUser != null) {
-            List<Medication> medicationList = medicationUser.getMedicationList();
-            for (int i = 0; i < medicationList.size(); i++) {
-                Medication medication = medicationList.get(i);
-                if (medication.getId().equals(medicationId)) {
-                    medicationList.set(i, updatedMedication);
-                    medicationUser.setMedicationList(medicationList);
-                    MedicationUser updatedUser = medicationUserRepository.save(medicationUser);
-                    return ResponseEntity.ok(updatedUser);
-                }
+            if (findMedication != null) {
+                throw new MedicationAlreadyExistsException(String.format("A medicação  já está na lista", medication.getName()));
             }
+
+            medicationListUser.add(medication);
+            medicationUser.setMedicationList(medicationListUser);
+            medicationUserRepository.save(medicationUser);
         }
-        return ResponseEntity.notFound().build();
-    }
-
-
-    public MedicationUser removeMedicationFromList(String id, String medicationName) {
-        MedicationUser medicationUser = getMedicationUserById(id);
-        List<Medication> medicationList = medicationUser.getMedicationList();
-
-        Iterator<Medication> iterator = medicationList.iterator();
-        while (iterator.hasNext()) {
-            Medication medication = iterator.next();
-            if (medication.getName().equals(medicationName)) {
-                iterator.remove();
-            }
-        }
-
-        return medicationUserRepository.save(medicationUser);
     }
 }
 
