@@ -1,6 +1,7 @@
 package com.fundatec.tcc.controller;
 
 import com.fundatec.tcc.controller.exceptions.MedicationAlreadyExistsException;
+import com.fundatec.tcc.controller.exceptions.MedicationNotFoundException;
 import com.fundatec.tcc.model.Medication;
 import com.fundatec.tcc.model.MedicationUser;
 
@@ -33,6 +34,13 @@ public class MedicationUserController {
         } catch (MedicationAlreadyExistsException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+    }
+
+    @DeleteMapping("/{userName}/medications/{medicationName}")
+    public void removeMedicationFromUser(
+            @PathVariable String userName,
+            @PathVariable String medicationName) throws MedicationNotFoundException {
+        medicationUserService.removeMedicationFromUser(userName, medicationName);
     }
 }
 
