@@ -50,7 +50,7 @@ public class MedicationUserService {
                     .anyMatch(m -> m.getId().equals(medication.getId()));
 
             if (medicationExists) {
-                throw new MedicationAlreadyExistsException(String.format("A medicação com Id %s já está na lista", medication.getId()));
+                throw new MedicationAlreadyExistsException(String.format("Medication with is already in the list", medication.getId()));
             }
 
             medicationList.add(medication);
@@ -63,12 +63,12 @@ public class MedicationUserService {
     public void removeMedicationFromUser(String userName, String medicationId) throws MedicationNotFoundException {
         MedicationUser user = medicationUserRepository.findByUserName(userName);
         if (user == null) {
-            throw new MedicationNotFoundException("Usuário não encontrado");
+            throw new MedicationNotFoundException("User not found.");
         }
         List<Medication> medicationList = user.getMedicationList();
         Medication medicationToRemove = getMedicationById(medicationList, medicationId);
         if (medicationToRemove == null) {
-            throw new MedicationNotFoundException("Medicação não encontrada na lista do usuário");
+            throw new MedicationNotFoundException("Medication not found in user list.");
         }
         medicationList.remove(medicationToRemove);
         medicationUserRepository.save(user);
@@ -80,12 +80,12 @@ public class MedicationUserService {
                 return medication;
             }
         }
-        throw new MedicationNotFoundException("Medicação não encontrada");
+        throw new MedicationNotFoundException("Medication not found.");
     }
     public void updateMedicationFromUser(String userName, Medication updatedMedication) throws MedicationNotFoundException {
         MedicationUser user = medicationUserRepository.findByUserName(userName);
         if (user == null) {
-            throw new MedicationNotFoundException("Usuário não encontrado");
+            throw new MedicationNotFoundException("User not found.");
         }
         List<Medication> medicationListUser = user.getMedicationList();
         boolean medicationExists = false;
@@ -102,7 +102,7 @@ public class MedicationUserService {
         }
 
         if (!medicationExists) {
-            throw new MedicationNotFoundException("Medicação não encontrada na lista do usuário");
+            throw new MedicationNotFoundException("Medication not found in user list.");
         }
         medicationUserRepository.save(user);
     }

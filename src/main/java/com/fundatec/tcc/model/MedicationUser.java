@@ -3,7 +3,6 @@ package com.fundatec.tcc.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
 import java.util.List;
 @Document(collection = "medicationUser")
 public class MedicationUser {
@@ -12,8 +11,6 @@ public class MedicationUser {
     private String userName;
 
     private List<Medication> medicationList;
-
-    // construtor, getters e setters aqui
 
     public MedicationUser(String userName, List<Medication> medicationList){
         this.userName = userName;

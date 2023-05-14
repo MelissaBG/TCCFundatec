@@ -3,7 +3,6 @@ import com.fundatec.tcc.controller.exceptions.NoUsersFoundException;
 import com.fundatec.tcc.controller.exceptions.UsernameAlreadyExistsException;
 import com.fundatec.tcc.model.User;
 import com.fundatec.tcc.service.usuario.UserService;
-import com.fundatec.tcc.controller.exceptions.InvalidCredentialsException;
 import com.fundatec.tcc.controller.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
