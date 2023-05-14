@@ -41,6 +41,7 @@ public class MedicationUserService {
     public void deleteMedicationUserById(String id) {
         medicationUserRepository.deleteById(id);
     }
+
     public MedicationUser addMedicationToUser(String userName, Medication medication) throws MedicationAlreadyExistsException {
         MedicationUser medicationUser = medicationUserRepository.findByUserName(userName);
         if (medicationUser != null) {

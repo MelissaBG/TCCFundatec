@@ -19,7 +19,7 @@ public class MedicationController {
     @Autowired
     private MedicationService medicationService;
 
-    @GetMapping("/getAllMedications")
+    @GetMapping("/get_all_medications")
     public List<Medication> getAllMedications() throws MedicationNotFoundException {
         List<Medication> medications = medicationService.getAllMedications();
         if (medications.isEmpty()) {
@@ -29,7 +29,7 @@ public class MedicationController {
         }
     }
 
-    @GetMapping("/getMedicationByName/{name}")
+    @GetMapping("/get_medication_by_name/{name}")
     public ResponseEntity<Medication> getMedicationByName(@PathVariable String name) throws MedicationNotFoundException {
         Medication medication = medicationService.findByName(name);
         if (medication != null) {
@@ -39,7 +39,7 @@ public class MedicationController {
         }
     }
 
-    @PostMapping("/createMedication")
+    @PostMapping("/create_medication")
     public ResponseEntity<Medication> createMedication(@RequestBody Medication medication) throws MedicationAlreadyExistsException {
         if (medicationService.findByName(medication.getName()) != null) {
             throw new MedicationAlreadyExistsException("Medication " + medication.getName() + " already exists");
@@ -48,7 +48,7 @@ public class MedicationController {
         return new ResponseEntity<>(savedMedication, HttpStatus.CREATED);
     }
 
-    @PutMapping("/updateMedication/{medicationName}")
+    @PutMapping("/update_medication/{medication_name}")
     public ResponseEntity<Medication> updateMedicationByName(
             @PathVariable String medicationName,
             @RequestBody Medication medication
@@ -65,7 +65,7 @@ public class MedicationController {
         }
     }
 
-    @DeleteMapping("/deleteMedication/{medicationName}")
+    @DeleteMapping("/delete_medication/{medication_name}")
     public ResponseEntity<Void> deleteMedication(@PathVariable String medicationName) {
         medicationService.deleteMedicationByName(medicationName);
         return ResponseEntity.noContent().build();

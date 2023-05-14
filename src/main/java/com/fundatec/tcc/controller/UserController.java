@@ -29,7 +29,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/buscar/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable String id) {
         User user = userService.findById(id);
         if(user != null) {
@@ -49,7 +49,7 @@ public class UserController {
     }
 
 
-    @PutMapping("/editar/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<User> updateUser(@PathVariable String id, @RequestBody User user) {
         User existingUser = userService.findById(id);
         if(existingUser == null) {
@@ -61,7 +61,7 @@ public class UserController {
     }
 
 
-    @DeleteMapping("/deletar/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable String id) {
         User existingUser = userService.findById(id);
         if(existingUser == null) {
