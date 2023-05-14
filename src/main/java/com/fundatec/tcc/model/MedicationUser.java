@@ -12,11 +12,10 @@ public class MedicationUser {
 
     private List<Medication> medicationList;
 
-    public MedicationUser(String userName, List<Medication> medicationList){
+    public MedicationUser(String userName,List<Medication> medicationList){
         this.userName = userName;
         this.medicationList = medicationList;
     }
-
 
     public String getId() {
         return id;

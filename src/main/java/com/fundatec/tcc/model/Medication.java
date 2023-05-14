@@ -1,19 +1,12 @@
 package com.fundatec.tcc.model;
 
-
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.time.LocalDate;
-
-@Document(collection = "medication")
 public class Medication {
-    @Id
+
     private String id;
     private String name;
     private String dosage;
     private Integer amount;
-    private LocalDate dateRegister;
+    private String dateRegister;
     private String time;
 
     public String getId() {
@@ -48,11 +41,11 @@ public class Medication {
         this.amount = amount;
     }
 
-    public LocalDate getDateRegister() {
+    public String getDateRegister() {
         return dateRegister;
     }
 
-    public void setDateRegister(LocalDate dateRegister) {
+    public void setDateRegister(String dateRegister) {
         this.dateRegister = dateRegister;
     }
 

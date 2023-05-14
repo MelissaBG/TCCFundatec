@@ -40,44 +40,23 @@ public class MedicationUserService {
         medicationUserRepository.deleteById(id);
     }
 
-    public MedicationUser addMedicationsToList(String medicationUserId, List<Medication> medications) {
+    public MedicationUser addMedicationsToList(String medicationUserId, Medication newMedication) {
         MedicationUser medicationUser = medicationUserRepository.findById(medicationUserId).orElse(null);
         if (medicationUser != null) {
             List<Medication> medicationList = medicationUser.getMedicationList();
-            medicationList.addAll(medications);
-            medicationUser.setMedicationList(medicationList);
-            return medicationUserRepository.save(medicationUser);
-        }
-        return null;
-    }
-    public MedicationUser removeMedicationFromList(String medicationUserId, String medicationId) {
-        MedicationUser medicationUser = medicationUserRepository.findById(medicationUserId).orElse(null);
-        if (medicationUser != null) {
-            List<Medication> medicationList = medicationUser.getMedicationList();
-            medicationList.removeIf(medication -> medication.getId().equals(medicationId));
-            medicationUser.setMedicationList(medicationList);
+            medicationList.add(newMedication);
             return medicationUserRepository.save(medicationUser);
         }
         return null;
     }
 
-    private Medication getMedicationById(List<Medication> medicationList, String medicationId) throws MedicationNotFoundException {
-        for (Medication medication : medicationList) {
-            if (medication.getId().equals(medicationId)) {
-                return medication;
-            }
-        }
-        throw new MedicationNotFoundException("Medication not found.");
-    }
-    public MedicationUser updateMedicationInList(String medicationUserId, Medication updatedMedication) {
+    public MedicationUser removeMedicationFromList(String medicationUserId, String medicationId) {
         MedicationUser medicationUser = medicationUserRepository.findById(medicationUserId).orElse(null);
         if (medicationUser != null) {
-            List<Medication> medicationList = medicationUser.getMedicationList();
-            for (int i = 0; i < medicationList.size(); i++) {
-                Medication medication = medicationList.get(i);
-                if (medication.getId().equals(updatedMedication.getId())) {
-                    medicationList.set(i, updatedMedication);
-                    medicationUser.setMedicationList(medicationList);
+            for (Medication medication : medicationUser.getMedicationList()) {
+                String id = medication.getId();
+                if (id.equals(medicationId)) {
+                    medicationUser.getMedicationList().remove(medication);
                     return medicationUserRepository.save(medicationUser);
                 }
             }

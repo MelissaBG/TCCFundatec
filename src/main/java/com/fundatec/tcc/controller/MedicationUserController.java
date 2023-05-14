@@ -1,7 +1,5 @@
 package com.fundatec.tcc.controller;
 
-import com.fundatec.tcc.controller.exceptions.MedicationAlreadyExistsException;
-import com.fundatec.tcc.controller.exceptions.MedicationNotFoundException;
 import com.fundatec.tcc.model.Medication;
 import com.fundatec.tcc.model.MedicationUser;
 import com.fundatec.tcc.service.Medicamento.MedicationUserService;
@@ -51,8 +49,8 @@ public class MedicationUserController {
         return ResponseEntity.noContent().build();
     }
     @PostMapping("/add_medications/{medicationUserId}")
-    public ResponseEntity<MedicationUser> addMedicationsToList(@PathVariable String id, @RequestBody List<Medication> medications) {
-        MedicationUser updatedUser = medicationUserService.addMedicationsToList(id, medications);
+    public ResponseEntity<MedicationUser> addMedicationsToList(@PathVariable String medicationUserId, @RequestBody Medication medication) {
+        MedicationUser updatedUser = medicationUserService.addMedicationsToList(medicationUserId, medication);
         if (updatedUser != null) {
             return ResponseEntity.ok(updatedUser);
         } else {
@@ -60,7 +58,7 @@ public class MedicationUserController {
         }
     }
 
-    @DeleteMapping("/remove_medications/{medicationUserId}")
+    @DeleteMapping("/remove_medications/{id}")
     public ResponseEntity<MedicationUser> removeMedicationFromList(@PathVariable String id, @RequestBody String medicationId) {
         MedicationUser updatedUser = medicationUserService.removeMedicationFromList(id, medicationId);
         if (updatedUser != null) {
@@ -70,14 +68,5 @@ public class MedicationUserController {
         }
     }
 
-    @PutMapping("/update/{medicationUserId}")
-    public ResponseEntity<MedicationUser> updateMedicationInList(@PathVariable String id, @RequestBody Medication updatedMedication) {
-        MedicationUser updatedUser = medicationUserService.updateMedicationInList(id, updatedMedication);
-        if (updatedUser != null) {
-            return ResponseEntity.ok(updatedUser);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
 }
 
