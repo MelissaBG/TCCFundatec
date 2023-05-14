@@ -7,8 +7,6 @@ import com.fundatec.tcc.model.MedicationUser;
 import com.fundatec.tcc.repository.MedicationUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-
 import java.util.List;
 
 @Service
