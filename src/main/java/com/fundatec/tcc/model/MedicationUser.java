@@ -11,7 +11,7 @@ public class MedicationUser {
     private String id;
     private String userName;
 
-    private List<Medication> medicationList = new ArrayList<>();
+    private List<Medication> medicationList;
 
     // construtor, getters e setters aqui
 
@@ -37,8 +37,8 @@ public class MedicationUser {
         this.userName = userName;
     }
 
-    public void setMedicationList(List<Medication> medicationList) {
-        this.medicationList = medicationList;
+    public void setMedicationList(List<Medication> existingList) {
+        this.medicationList = existingList;
     }
 
     public List<Medication> getMedicationList() {

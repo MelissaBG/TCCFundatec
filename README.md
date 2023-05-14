@@ -1,7 +1,7 @@
 # TCC
 USER
 POST - http://localhost:8080/users/login
-POST - http://localhost:8080/users/salvar
+POST - http://localhost:8080/users/save
 GET - http://localhost:8080/users/buscar/{id}
 PUT - http://localhost:8080/users/editar/{id}
 DELETE - http://localhost:8080/users/deletar/{id}

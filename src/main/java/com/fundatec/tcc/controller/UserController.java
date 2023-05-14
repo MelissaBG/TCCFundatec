@@ -39,7 +39,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/salvar")
+    @PostMapping("/save")
     public ResponseEntity<User> createUser(@RequestBody User user) throws UsernameAlreadyExistsException {
         if(userService.findByUsername(user.getUsername()) != null) {
             throw new UsernameAlreadyExistsException("Username " + user.getUsername() + " already exists");

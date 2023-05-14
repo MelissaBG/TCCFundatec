@@ -17,10 +17,30 @@ public class MedicationUserService {
     private MedicationUserRepository medicationUserRepository;
 
 
+    public List<MedicationUser> getAllMedicationUsers() {
+        return medicationUserRepository.findAll();
+    }
+
     public MedicationUser getMedicationUserById(String id) {
         return medicationUserRepository.findById(id).orElse(null);
     }
 
+    public MedicationUser saveMedicationUser(MedicationUser medicationUser) {
+        return medicationUserRepository.save(medicationUser);
+    }
+    public MedicationUser updateMedicationUser(String id, MedicationUser medicationUser) {
+        if (medicationUserRepository.existsById(id)) {
+            MedicationUser existingMedicationUser = medicationUserRepository.findById(id).orElse(null);
+            if (existingMedicationUser != null) {
+                existingMedicationUser.setMedicationList(medicationUser.getMedicationList());
+                return medicationUserRepository.save(existingMedicationUser);
+            }
+        }
+        return null;
+    }
+    public void deleteMedicationUserById(String id) {
+        medicationUserRepository.deleteById(id);
+    }
     public MedicationUser addMedicationToUser(String userName, Medication medication) throws MedicationAlreadyExistsException {
         MedicationUser medicationUser = medicationUserRepository.findByUserName(userName);
         if (medicationUser != null) {
