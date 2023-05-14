@@ -13,10 +13,13 @@ http://localhost:8080/medicationUsers/updateMedicationFromUser/{userName}/medica
 
 
 MEDICATION
-
+http://localhost:8080/medications/{id}
+http://localhost:8080/medications/save
+http://localhost:8080/medications/update/{id}
+http://localhost:8080/medications/delete/{id}
 http://localhost:8080/medications/create_medication
-http://localhost:8080/medications/delete_medication/{medication_name}
-http://localhost:8080/medications/update_medication/{medication_name}
+http://localhost:8080/medications/remove_medications/{medicationUserId}
+http://localhost:8080/medications/update/{medicationUserId}
 http://localhost:8080/medications/get_medication_by_name/{name}
 http://localhost:8080/medications/get_all_medications
 
