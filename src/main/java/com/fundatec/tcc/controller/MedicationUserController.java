@@ -50,41 +50,32 @@ public class MedicationUserController {
         medicationUserService.deleteMedicationUserById(id);
         return ResponseEntity.noContent().build();
     }
-    @PostMapping("/addMedicationToUser/{userName}/medications")
-    public ResponseEntity<String> addMedicationToUser(
-            @PathVariable("userName") String userName,
-            @RequestBody Medication medication
-    ) {
-        try {
-            medicationUserService.addMedicationToUser(userName, medication);
-            return ResponseEntity.ok("Medication added successfully.");
-        } catch (MedicationAlreadyExistsException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
-    @DeleteMapping("/removeMedicationFromUser/{userName}/medications/{medicationId}")
-    public ResponseEntity<Void> removeMedicationFromUser(
-            @PathVariable("userName") String userName,
-            @PathVariable("medicationId") String medicationId
-    ) {
-        try {
-            medicationUserService.removeMedicationFromUser(userName, medicationId);
-            return ResponseEntity.noContent().build();
-        } catch (MedicationNotFoundException e) {
+    @PostMapping("/add_medications/{medicationUserId}")
+    public ResponseEntity<MedicationUser> addMedicationsToList(@PathVariable String id, @RequestBody List<Medication> medications) {
+        MedicationUser updatedUser = medicationUserService.addMedicationsToList(id, medications);
+        if (updatedUser != null) {
+            return ResponseEntity.ok(updatedUser);
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
 
-    @PutMapping("/updateMedicationFromUser/{userName}/medications")
-    public ResponseEntity<String> updateMedicationFromUser(
-            @PathVariable("userName") String userName,
-            @RequestBody Medication updatedMedication
-    ) {
-        try {
-            medicationUserService.updateMedicationFromUser(userName, updatedMedication);
-            return ResponseEntity.ok("Medication updated successfully.");
-        } catch (MedicationNotFoundException e) {
+    @DeleteMapping("/remove_medications/{medicationUserId}")
+    public ResponseEntity<MedicationUser> removeMedicationFromList(@PathVariable String id, @RequestBody String medicationId) {
+        MedicationUser updatedUser = medicationUserService.removeMedicationFromList(id, medicationId);
+        if (updatedUser != null) {
+            return ResponseEntity.ok(updatedUser);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/update/{medicationUserId}")
+    public ResponseEntity<MedicationUser> updateMedicationInList(@PathVariable String id, @RequestBody Medication updatedMedication) {
+        MedicationUser updatedUser = medicationUserService.updateMedicationInList(id, updatedMedication);
+        if (updatedUser != null) {
+            return ResponseEntity.ok(updatedUser);
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
