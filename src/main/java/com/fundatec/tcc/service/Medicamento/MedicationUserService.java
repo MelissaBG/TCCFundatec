@@ -45,6 +45,7 @@ public class MedicationUserService {
         if (medicationUser != null) {
             List<Medication> medicationList = medicationUser.getMedicationList();
             medicationList.add(newMedication);
+            medicationUser.setMedicationList(medicationList);
             return medicationUserRepository.save(medicationUser);
         }
         return null;
